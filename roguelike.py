@@ -2,7 +2,7 @@
 
 Run it with:
 
-    python roguelike.py
+    python3 roguelike.py
 
 The values near the top of this file are intentionally easy to tweak for game
 design experiments: map size, player health, monster count, potion count, etc.

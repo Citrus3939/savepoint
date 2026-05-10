@@ -9,13 +9,13 @@
 在项目目录里输入：
 
 ```bash
-python roguelike.py
+python3 roguelike.py
 ```
 
-如果你的电脑默认命令是 Python 3，也可以用：
+如果你的电脑已经把 `python` 指向 Python 3，也可以用：
 
 ```bash
-python3 roguelike.py
+python roguelike.py
 ```
 
 ## 怎么玩
@@ -64,12 +64,12 @@ WALL_CHANCE = 0.10
 - 把 `WALL_CHANCE` 改大：地图更像迷宫
 - 把 `TREASURE_COUNT` 改大：鼓励玩家多探索
 
-每次保存后重新运行 `python roguelike.py`，就能看到变化。
+每次保存后重新运行 `python3 roguelike.py`，就能看到变化。
 
 ## 运行测试
 
 如果你改了代码，可以用下面的命令检查基础规则有没有坏掉：
 
 ```bash
-python -m unittest
+python3 -m unittest
 ```
