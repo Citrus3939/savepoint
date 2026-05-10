@@ -6,7 +6,28 @@
 
 ## 如何运行
 
-在项目目录里输入：
+在“终端”里进入项目目录，然后输入这一整行：
+
+```bash
+python3 roguelike.py
+```
+
+注意：不要在 Python 的 `>>>` 提示符后面输入 `roguelike.py`。
+
+如果你看到的是这样的画面：
+
+```python
+>>> roguelike.py
+NameError: name 'roguelike' is not defined
+```
+
+说明你已经进入了 Python 互动模式。先输入下面这行退出：
+
+```python
+exit()
+```
+
+然后回到普通终端，再输入：
 
 ```bash
 python3 roguelike.py
