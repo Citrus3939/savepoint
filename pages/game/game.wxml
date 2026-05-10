@@ -12,6 +12,7 @@
       <text class="muted">本轮故事线索：</text>
       <text wx:for="{{activeTalentNames}}" wx:key="*this" class="tag">{{item}}</text>
     </view>
+    <view wx:if="{{mortalityText}}" class="mortality">{{mortalityText}}</view>
   </view>
 
   <view wx:if="{{achievementToast}}" class="panel toast">

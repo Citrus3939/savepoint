@@ -6,7 +6,7 @@ const events = [
     minAge: 0,
     maxAge: 0,
     priority: 100,
-    ageAdvance: 6,
+    ageAdvance: 1,
     addTags: ["born"],
     choices: [
       {
@@ -36,7 +36,7 @@ const events = [
     minAge: 6,
     maxAge: 12,
     priority: 80,
-    ageAdvance: 2,
+    ageAdvance: 1,
     choices: [
       {
         text: "留下来陪对方一会儿",
@@ -65,7 +65,7 @@ const events = [
     minAge: 8,
     maxAge: 16,
     priority: 95,
-    ageAdvance: 2,
+    ageAdvance: 1,
     requires: {
       tags: ["loyal_friend"],
     },
@@ -95,7 +95,7 @@ const events = [
     minAge: 12,
     maxAge: 18,
     priority: 70,
-    ageAdvance: 4,
+    ageAdvance: 1,
     choices: [
       {
         text: "把大量时间投入学习",
@@ -114,6 +114,31 @@ const events = [
           relationships: 1,
         },
         addTags: ["balanced_student"],
+      },
+    ],
+  },
+  {
+    id: "growing_year",
+    title: "成长的一年",
+    text: "这一年没有惊天动地的大事，但你依然在一点点长大。你开始意识到，普通日子也会塑造一个人。",
+    minAge: 1,
+    maxAge: 17,
+    priority: 10,
+    once: false,
+    ageAdvance: 1,
+    choices: [
+      {
+        text: "把注意力放在观察世界上",
+        statChanges: {
+          knowledge: 1,
+        },
+      },
+      {
+        text: "把注意力放在身边的人上",
+        statChanges: {
+          relationships: 1,
+          happiness: 1,
+        },
       },
     ],
   },
@@ -327,7 +352,7 @@ const events = [
     title: "普通的一年",
     text: "这一年没有戏剧性的转折。日子像水一样流过，但你仍然可以选择把注意力放在哪里。",
     minAge: 10,
-    maxAge: 79,
+    maxAge: 59,
     priority: 10,
     once: false,
     ageAdvance: 3,
@@ -345,6 +370,32 @@ const events = [
           knowledge: 1,
           money: 1,
           health: -1,
+        },
+      },
+    ],
+  },
+  {
+    id: "elderly_year",
+    title: "晚年的一年",
+    text: "年岁渐长，身体和记忆都变得更需要照顾。你开始更认真地回望过去，也更珍惜还在身边的人。",
+    minAge: 60,
+    maxAge: 99,
+    priority: 10,
+    once: false,
+    ageAdvance: 2,
+    choices: [
+      {
+        text: "慢下来，照顾身体",
+        statChanges: {
+          health: 1,
+          happiness: 1,
+        },
+      },
+      {
+        text: "整理旧物，回忆一路走来的人",
+        statChanges: {
+          relationships: 1,
+          happiness: 1,
         },
       },
     ],

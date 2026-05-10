@@ -98,3 +98,57 @@ test("health reaching zero ends the life", () => {
   assert.equal(result.state.ended, true);
   assert.equal(result.state.endingTitle, "生命提前谢幕");
 });
+
+test("life advances one year per event before age 18", () => {
+  const state = engine.createInitialState({
+    stats: {
+      health: 6,
+    },
+  });
+  const event = {
+    id: "big_childhood_event",
+    title: "Big Childhood Event",
+    minAge: 0,
+    ageAdvance: 6,
+  };
+  const choice = {
+    text: "Choose",
+  };
+
+  const result = engine.applyChoice(state, event, choice, achievements, () => 1);
+
+  assert.equal(result.state.age, 1);
+});
+
+test("adult events can advance multiple years", () => {
+  const state = engine.createInitialState();
+  state.age = 18;
+  const event = {
+    id: "adult_event",
+    title: "Adult Event",
+    minAge: 18,
+    ageAdvance: 5,
+  };
+  const choice = {
+    text: "Choose",
+  };
+
+  const result = engine.applyChoice(state, event, choice, achievements, () => 1);
+
+  assert.equal(result.state.age, 23);
+});
+
+test("natural death chance starts in old age and reaches certainty at max age", () => {
+  const youngState = engine.createInitialState();
+  youngState.age = 59;
+
+  const oldState = engine.createInitialState();
+  oldState.age = 80;
+
+  const maxAgeState = engine.createInitialState();
+  maxAgeState.age = engine.MAX_AGE;
+
+  assert.equal(engine.getNaturalDeathChance(youngState), 0);
+  assert.ok(engine.getNaturalDeathChance(oldState) > 0);
+  assert.equal(engine.getNaturalDeathChance(maxAgeState), 1);
+});

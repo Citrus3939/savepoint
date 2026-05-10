@@ -14,6 +14,10 @@ const STAT_LIMITS = {
   relationships: { min: -5, max: 20 },
 };
 
+const YEARLY_EVENT_UNTIL_AGE = 18;
+const OLD_AGE_START = 60;
+const MAX_AGE = 100;
+
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
 }
@@ -210,9 +214,30 @@ function getTalentsFromAchievements(achievementIds, achievements) {
   );
 }
 
-function applyChoice(state, event, choice, achievements = []) {
+function getAgeAdvance(state, event, choice) {
+  if (state.age < YEARLY_EVENT_UNTIL_AGE) {
+    return 1;
+  }
+
+  return choice.ageAdvance !== undefined ? choice.ageAdvance : event.ageAdvance || 1;
+}
+
+function getNaturalDeathChance(state) {
+  if (state.age < OLD_AGE_START) {
+    return 0;
+  }
+  if (state.age >= MAX_AGE) {
+    return 1;
+  }
+
+  const agePressure = (state.age - OLD_AGE_START) * 0.015;
+  const lowHealthPressure = Math.max(0, 6 - state.stats.health) * 0.025;
+  return Math.min(0.85, agePressure + lowHealthPressure);
+}
+
+function applyChoice(state, event, choice, achievements = [], random = Math.random) {
   const nextState = clone(state);
-  const ageAdvance = choice.ageAdvance !== undefined ? choice.ageAdvance : event.ageAdvance || 1;
+  const ageAdvance = getAgeAdvance(state, event, choice);
   const tagsToAdd = unique([...(event.addTags || []), ...(choice.addTags || [])]);
   const tagsToRemove = unique(choice.removeTags || []);
 
@@ -239,7 +264,7 @@ function applyChoice(state, event, choice, achievements = []) {
   nextState.ownedAchievements = unique(nextState.ownedAchievements.concat(unlockedAchievements));
   const unlockedTalents = getTalentsFromAchievements(unlockedAchievements, achievements);
 
-  const ending = getEndingIfNeeded(nextState);
+  const ending = getEndingIfNeeded(nextState, random);
   if (ending) {
     nextState.ended = true;
     nextState.endingTitle = ending.title;
@@ -266,7 +291,7 @@ function getLifeScore(state) {
   );
 }
 
-function getEndingIfNeeded(state) {
+function getEndingIfNeeded(state, random = Math.random) {
   if (state.stats.health <= 0) {
     return {
       title: "生命提前谢幕",
@@ -274,7 +299,8 @@ function getEndingIfNeeded(state) {
     };
   }
 
-  if (state.age >= 80) {
+  const naturalDeathChance = getNaturalDeathChance(state);
+  if (naturalDeathChance >= 1 || random() < naturalDeathChance) {
     return {
       title: "一生落幕",
       review: buildReview(state, "你走完了漫长的一生。"),
@@ -313,11 +339,16 @@ function buildReview(state, opening) {
 module.exports = {
   DEFAULT_STATS,
   STAT_LIMITS,
+  YEARLY_EVENT_UNTIL_AGE,
+  OLD_AGE_START,
+  MAX_AGE,
   createInitialState,
   pickActiveTalents,
   isEventEligible,
   getNextEvent,
   applyChoice,
+  getAgeAdvance,
+  getNaturalDeathChance,
   getLifeScore,
   buildReview,
 };

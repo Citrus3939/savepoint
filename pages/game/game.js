@@ -17,6 +17,7 @@ Page({
     state: engine.createInitialState(),
     currentEvent: null,
     activeTalentNames: [],
+    mortalityText: "",
     achievementToast: "",
   },
 
@@ -43,6 +44,7 @@ Page({
       {
         state,
         activeTalentNames,
+        mortalityText: this.formatMortalityText(state),
         achievementToast: activeTalentNames.length
           ? `本轮随机线索：${activeTalentNames.join("、")}`
           : "",
@@ -71,6 +73,7 @@ Page({
       this.setData({
         state: endedState,
         currentEvent: null,
+        mortalityText: this.formatMortalityText(endedState),
       });
       return;
     }
@@ -96,6 +99,7 @@ Page({
     this.setData(
       {
         state: result.state,
+        mortalityText: this.formatMortalityText(result.state),
         achievementToast: this.formatUnlockToast(result.unlockedAchievements, result.unlockedTalents),
       },
       () => {
@@ -108,6 +112,15 @@ Page({
         }
       }
     );
+  },
+
+  formatMortalityText(state) {
+    const chance = engine.getNaturalDeathChance(state);
+    if (chance <= 0 || state.ended) {
+      return "";
+    }
+
+    return `晚年自然谢幕概率：约 ${Math.round(chance * 100)}%`;
   },
 
   persistUnlocks(achievementIds, talentIds) {
