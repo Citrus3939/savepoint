@@ -3,6 +3,7 @@ const assert = require("node:assert/strict");
 
 const engine = require("../utils/lifeEngine");
 const { achievements } = require("../data/achievements");
+const { events } = require("../data/events");
 
 test("nextEventId creates a continuous event", () => {
   const state = engine.createInitialState({
@@ -151,4 +152,26 @@ test("natural death chance starts in old age and reaches certainty at max age", 
   assert.equal(engine.getNaturalDeathChance(youngState), 0);
   assert.ok(engine.getNaturalDeathChance(oldState) > 0);
   assert.equal(engine.getNaturalDeathChance(maxAgeState), 1);
+});
+
+test("event library contains exactly 100 events", () => {
+  assert.equal(events.length, 100);
+});
+
+test("ages 0 through 17 each have a dedicated yearly event", () => {
+  for (let age = 0; age < 18; age += 1) {
+    assert.ok(
+      events.some(
+        (event) =>
+          event.id !== "growing_year" && event.minAge === age && event.maxAge === age
+      ),
+      `Missing dedicated event for age ${age}`
+    );
+  }
+});
+
+test("fallback events cover childhood, adulthood, and old age", () => {
+  assert.ok(events.some((event) => event.id === "growing_year" && event.once === false));
+  assert.ok(events.some((event) => event.id === "ordinary_year" && event.once === false));
+  assert.ok(events.some((event) => event.id === "elderly_year" && event.once === false));
 });

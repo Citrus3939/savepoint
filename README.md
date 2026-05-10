@@ -13,6 +13,8 @@
   - 分享到微信好友
   - 退出
 - 人生事件系统
+  - 当前正式事件库已有 100 个事件
+  - 覆盖 0 岁到晚年的完整时间线
   - 年龄段触发
   - 优先级
   - 随机触发
@@ -288,6 +290,36 @@ node --test
 ```
 
 如果你不熟悉命令行，可以先不跑这一步。对你来说，最重要的是用微信开发者工具试玩并记录体验问题。
+
+## 用 DeepSeek API 重新生成 100 个事件
+
+当前仓库已经内置了一版 100 个事件，可以直接试玩。
+
+如果你以后想用自己的 DeepSeek API 重新生成事件，可以运行：
+
+```bash
+DEEPSEEK_API_KEY=你的key node scripts/generate-deepseek-events.js
+```
+
+Windows PowerShell 可以这样写：
+
+```powershell
+$env:DEEPSEEK_API_KEY="你的key"
+node scripts/generate-deepseek-events.js
+```
+
+注意：
+
+- 不要把 API Key 写进代码文件。
+- 不要把 API Key 提交到 GitHub。
+- 生成后会覆盖 `data/events.js`。
+- 生成完成后建议运行：
+
+```bash
+node --test
+```
+
+如果你不熟悉命令行，也可以直接把事件想法发给 agent，让 agent 帮你生成和检查。
 
 ## 作为游戏设计师，接下来最该做什么
 
