@@ -279,7 +279,228 @@ requires: {
 
 意思是：健康小于等于 3，适合触发疾病、疲惫、危机事件。
 
-## 7. 选择能改变什么
+## 7. 互斥事件怎么设计
+
+互斥的意思是：玩家走了 A 路线，就不能再走 B 路线。
+
+最推荐的做法是用标签：
+
+- 选择 A 时加 `route_a`
+- 选择 B 时加 `route_b`
+- A 后续事件要求不能有 `route_b`
+- B 后续事件要求不能有 `route_a`
+
+### 方法一：两个选择天然互斥
+
+同一个事件里的两个选择，本来就只能选一个。
+
+```js
+{
+  id: "after_graduation_choice",
+  title: "毕业后的路",
+  text: "毕业后，你面前有两条路：继续读书，或者马上工作。",
+  minAge: 18,
+  maxAge: 22,
+  priority: 90,
+  choices: [
+    {
+      text: "继续读书",
+      statChanges: {
+        knowledge: 3,
+        money: -1
+      },
+      addTags: ["route_university"]
+    },
+    {
+      text: "马上工作",
+      statChanges: {
+        money: 2,
+        knowledge: 1
+      },
+      addTags: ["route_work_early"]
+    }
+  ]
+}
+```
+
+玩家只能得到：
+
+- `route_university`
+- 或 `route_work_early`
+
+### 方法二：后续事件互斥
+
+大学路线事件：
+
+```js
+{
+  id: "university_roommate",
+  title: "大学室友",
+  text: "你在大学宿舍遇到了性格完全不同的室友。",
+  minAge: 18,
+  maxAge: 25,
+  priority: 80,
+  requires: {
+    tags: ["route_university"],
+    notTags: ["route_work_early"]
+  },
+  choices: [
+    {
+      text: "试着融入集体",
+      statChanges: {
+        relationships: 1,
+        happiness: 1
+      }
+    },
+    {
+      text: "更多时间留给自己",
+      statChanges: {
+        knowledge: 1
+      }
+    }
+  ]
+}
+```
+
+早工作路线事件：
+
+```js
+{
+  id: "first_paycheck",
+  title: "第一笔工资",
+  text: "你拿到了人生中第一笔工资，虽然不多，但它完全属于你。",
+  minAge: 18,
+  maxAge: 25,
+  priority: 80,
+  requires: {
+    tags: ["route_work_early"],
+    notTags: ["route_university"]
+  },
+  choices: [
+    {
+      text: "存起来",
+      statChanges: {
+        money: 2
+      }
+    },
+    {
+      text: "买一件一直想要的东西",
+      statChanges: {
+        money: -1,
+        happiness: 2
+      }
+    }
+  ]
+}
+```
+
+关键是：
+
+```js
+requires: {
+  tags: ["route_university"],
+  notTags: ["route_work_early"]
+}
+```
+
+意思是：必须走了大学路线，并且不能走早工作路线。
+
+### 方法三：用 removeTags 切换路线
+
+有些人生路线不是永久互斥，而是可以转向。
+
+例如：玩家原本是工作路线，后来决定重新读书。
+
+```js
+{
+  text: "辞职备考，重新读书",
+  statChanges: {
+    money: -2,
+    knowledge: 2,
+    happiness: 1
+  },
+  addTags: ["route_university"],
+  removeTags: ["route_work_early"]
+}
+```
+
+意思是：
+
+- 加上 `route_university`
+- 移除 `route_work_early`
+
+这样后面就会进入大学路线，而不是继续早工作路线。
+
+### 方法四：事件只出现一次
+
+默认情况下，一个事件只会出现一次。
+
+所以普通事件不用特别写互斥。
+
+如果你看到：
+
+```js
+once: false
+```
+
+意思是这个事件可以重复出现，通常只给“普通的一年”“晚年的一年”这种兜底事件用。
+
+### 互斥标签命名建议
+
+建议互斥路线标签用 `route_` 开头：
+
+- `route_university`
+- `route_work_early`
+- `route_stayed_home`
+- `route_moved_city`
+- `route_married`
+- `route_single_life`
+- `route_artist`
+- `route_business`
+
+这样你以后看代码时，一眼就知道这是路线选择。
+
+### 新手最稳的互斥模板
+
+前置选择：
+
+```js
+{
+  text: "选择 A 路线",
+  addTags: ["route_a"]
+},
+{
+  text: "选择 B 路线",
+  addTags: ["route_b"]
+}
+```
+
+A 路线后续事件：
+
+```js
+requires: {
+  tags: ["route_a"],
+  notTags: ["route_b"]
+}
+```
+
+B 路线后续事件：
+
+```js
+requires: {
+  tags: ["route_b"],
+  notTags: ["route_a"]
+}
+```
+
+如果某个选择会从 A 转到 B：
+
+```js
+addTags: ["route_b"],
+removeTags: ["route_a"]
+```
+
+## 8. 选择能改变什么
 
 选择里可以写：
 
@@ -314,7 +535,7 @@ requires: {
 - `knowledge`：知识
 - `relationships`：人际关系
 
-## 8. 如何把新事件放进 data/events.js
+## 9. 如何把新事件放进 data/events.js
 
 打开 `data/events.js`，你会看到：
 
@@ -354,7 +575,7 @@ module.exports = {
 - 引号少了一边
 - 大括号 `{}` 或中括号 `[]` 没有配对
 
-## 9. 一个完整的三段连续故事例子
+## 10. 一个完整的三段连续故事例子
 
 可以直接复制到 `data/events.js` 的 `events` 数组里试试。
 
@@ -450,7 +671,7 @@ module.exports = {
 }
 ```
 
-## 10. 推荐你的设计流程
+## 11. 推荐你的设计流程
 
 不要一开始就写很多复杂条件。建议按这个顺序：
 
@@ -471,7 +692,7 @@ module.exports = {
 - 创作：第一次投稿 -> 被拒绝 -> 多年后出版
 - 疾病：忽视身体 -> 病倒 -> 改变生活
 
-## 11. 前 18 岁怎么设计
+## 12. 前 18 岁怎么设计
 
 当前游戏规则已经保证：18 岁前每次选择只长 1 岁。
 
@@ -483,7 +704,7 @@ module.exports = {
 
 建议前期至少准备 18 个事件，让玩家从 0 岁到 18 岁每一年都能遇到不同内容。现在代码里也有一个 `growing_year` 兜底事件：如果某一年没有更合适的事件，就会出现普通成长事件，保证流程不断。
 
-## 12. 改完后怎么检查
+## 13. 改完后怎么检查
 
 如果你会用命令行，可以运行：
 
