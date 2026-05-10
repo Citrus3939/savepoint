@@ -1,0 +1,24 @@
+<view class="page">
+  <view class="panel">
+    <view class="title">成就</view>
+    <view class="subtitle">
+      成就不会直接让角色变强。它们只会解锁“故事线索”，让未来人生有机会遇见特殊事件。
+    </view>
+  </view>
+
+  <view wx:for="{{achievements}}" wx:key="id" class="panel card">
+    <view class="card-title">
+      {{item.unlocked ? "已解锁" : "未解锁"}} · {{item.name}}
+    </view>
+    <view class="subtitle">{{item.description}}</view>
+    <view wx:if="{{item.talentName}}" class="talent-line">解锁线索：{{item.talentName}}</view>
+  </view>
+
+  <view class="panel card">
+    <view class="card-title">已拥有的故事线索</view>
+    <view wx:if="{{ownedTalents.length}}">
+      <text wx:for="{{ownedTalents}}" wx:key="id" class="tag">{{item.name}}</text>
+    </view>
+    <view wx:else class="subtitle">还没有线索。先开始一段人生吧。</view>
+  </view>
+</view>

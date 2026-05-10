@@ -1,0 +1,24 @@
+<view class="page home">
+  <view class="panel hero">
+    <view class="eyebrow">文字人生模拟器</view>
+    <view class="title">Savepoint</view>
+    <view class="subtitle">
+      从出生开始，每几年遇见一次事件。你的选择会留下标签、改变属性、解锁成就，并让下一段人生出现不同可能。
+    </view>
+  </view>
+
+  <view class="menu">
+    <button class="primary-button" bindtap="startLife">开始人生</button>
+    <button class="secondary-button" bindtap="openAchievements">成就 / 天赋</button>
+    <button class="secondary-button" bindtap="openEditor">事件编辑器</button>
+    <button class="secondary-button" open-type="share">分享到微信好友</button>
+    <button class="danger-button" bindtap="exitMiniProgram">退出</button>
+  </view>
+
+  <view class="panel note">
+    <view class="note-title">当前原型范围</view>
+    <view class="subtitle">
+      先跑通核心循环：事件、选择、连续事件、成就、天赋绑定事件和结局评语。图片、账号系统、真实服务器排行榜可以后续再接入。
+    </view>
+  </view>
+</view>

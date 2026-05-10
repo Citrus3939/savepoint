@@ -1,0 +1,49 @@
+<view class="page">
+  <view class="panel status">
+    <view class="age">年龄：{{state.age}} 岁</view>
+    <view class="stats">
+      <text>健康 {{state.stats.health}}</text>
+      <text>快乐 {{state.stats.happiness}}</text>
+      <text>知识 {{state.stats.knowledge}}</text>
+      <text>关系 {{state.stats.relationships}}</text>
+      <text>金钱 {{state.stats.money}}</text>
+    </view>
+    <view wx:if="{{activeTalentNames.length}}" class="talents">
+      <text class="muted">本轮故事线索：</text>
+      <text wx:for="{{activeTalentNames}}" wx:key="*this" class="tag">{{item}}</text>
+    </view>
+  </view>
+
+  <view wx:if="{{achievementToast}}" class="panel toast">
+    <view>新成就：{{achievementToast}}</view>
+  </view>
+
+  <view wx:if="{{!state.ended && currentEvent}}" class="panel event-card">
+    <view class="event-title">{{currentEvent.title}}</view>
+    <view class="event-text">{{currentEvent.text}}</view>
+    <button
+      wx:for="{{currentEvent.choices}}"
+      wx:key="text"
+      data-index="{{index}}"
+      class="primary-button choice-button"
+      bindtap="choose"
+    >
+      {{item.text}}
+    </button>
+  </view>
+
+  <view wx:if="{{state.ended}}" class="panel ending">
+    <view class="event-title">{{state.endingTitle}}</view>
+    <view class="event-text">{{state.endingReview}}</view>
+    <button class="primary-button" bindtap="restart">再来一生</button>
+    <button class="secondary-button" bindtap="goHome">回到主界面</button>
+    <button class="secondary-button" open-type="share">分享这一生</button>
+  </view>
+
+  <view wx:if="{{state.history.length}}" class="panel history">
+    <view class="history-title">人生记录</view>
+    <view wx:for="{{state.history}}" wx:key="eventId" class="history-item">
+      {{item.age}} 岁：{{item.eventTitle}} / {{item.choiceText}}
+    </view>
+  </view>
+</view>

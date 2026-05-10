@@ -1,0 +1,27 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: 32rpx;
+}
+
+.hero {
+  margin-top: 40rpx;
+}
+
+.eyebrow {
+  margin-bottom: 14rpx;
+  color: #f1c56b;
+  font-size: 24rpx;
+  letter-spacing: 4rpx;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.note-title {
+  color: #f1c56b;
+  font-size: 30rpx;
+  font-weight: 700;
+}

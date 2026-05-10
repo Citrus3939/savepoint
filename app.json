@@ -1,0 +1,16 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/game/game",
+    "pages/achievements/achievements",
+    "pages/editor/editor"
+  ],
+  "window": {
+    "navigationBarTitleText": "Savepoint",
+    "navigationBarBackgroundColor": "#10131f",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#10131f"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
