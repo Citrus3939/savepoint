@@ -1,0 +1,15 @@
+.card {
+  margin-top: 24rpx;
+}
+
+.card-title {
+  color: #f1c56b;
+  font-size: 32rpx;
+  font-weight: 700;
+}
+
+.talent-line {
+  margin-top: 16rpx;
+  color: #9fd6b5;
+  font-size: 26rpx;
+}

@@ -1,0 +1,68 @@
+<view class="page">
+  <view class="panel">
+    <view class="title">事件编辑器</view>
+    <view class="subtitle">
+      这里添加的是本机试玩事件，会保存在微信本地缓存里。适合先快速测试文本、年龄段、优先级和两个选择。
+    </view>
+  </view>
+
+  <form bindsubmit="saveEvent" class="panel form-card">
+    <view class="field-label">事件标题</view>
+    <input name="title" class="input" placeholder="例如：雨夜的电话" />
+
+    <view class="field-label">事件正文</view>
+    <textarea name="text" class="textarea" placeholder="写下玩家看到的事件描述" />
+
+    <view class="row">
+      <view class="half">
+        <view class="field-label">最小年龄</view>
+        <input name="minAge" class="input" type="number" value="18" />
+      </view>
+      <view class="half">
+        <view class="field-label">最大年龄</view>
+        <input name="maxAge" class="input" type="number" value="60" />
+      </view>
+    </view>
+
+    <view class="row">
+      <view class="half">
+        <view class="field-label">优先级</view>
+        <input name="priority" class="input" type="number" value="50" />
+      </view>
+      <view class="half">
+        <view class="field-label">推进年龄</view>
+        <input name="ageAdvance" class="input" type="number" value="3" />
+      </view>
+    </view>
+
+    <view class="section-title">选择 A</view>
+    <input name="choiceAText" class="input" placeholder="例如：接起电话" />
+    <view class="row">
+      <input name="choiceAHappiness" class="input small" type="number" placeholder="快乐" />
+      <input name="choiceAKnowledge" class="input small" type="number" placeholder="知识" />
+      <input name="choiceARelationships" class="input small" type="number" placeholder="关系" />
+    </view>
+
+    <view class="section-title">选择 B</view>
+    <input name="choiceBText" class="input" placeholder="例如：假装没听见" />
+    <view class="row">
+      <input name="choiceBHealth" class="input small" type="number" placeholder="健康" />
+      <input name="choiceBMoney" class="input small" type="number" placeholder="金钱" />
+      <input name="choiceBRelationships" class="input small" type="number" placeholder="关系" />
+    </view>
+
+    <button class="primary-button" form-type="submit">保存事件</button>
+  </form>
+
+  <view class="panel list-card">
+    <view class="section-title">已添加事件</view>
+    <view wx:if="{{customEvents.length === 0}}" class="subtitle">还没有自定义事件。</view>
+    <view wx:for="{{customEvents}}" wx:key="id" class="event-row">
+      <view>
+        <view class="event-title">{{item.title}}</view>
+        <view class="muted">{{item.minAge}}-{{item.maxAge}} 岁 · 优先级 {{item.priority}}</view>
+      </view>
+      <button size="mini" data-id="{{item.id}}" bindtap="deleteEvent">删除</button>
+    </view>
+  </view>
+</view>

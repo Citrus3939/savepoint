@@ -1,0 +1,69 @@
+.status {
+  margin-bottom: 28rpx;
+}
+
+.age {
+  color: #f1c56b;
+  font-size: 42rpx;
+  font-weight: 700;
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  margin-top: 18rpx;
+  color: #d8cfbd;
+  font-size: 26rpx;
+}
+
+.talents {
+  margin-top: 16rpx;
+}
+
+.mortality {
+  margin-top: 18rpx;
+  color: #ffb1a6;
+  font-size: 25rpx;
+}
+
+.toast {
+  margin-bottom: 28rpx;
+  color: #f1c56b;
+}
+
+.event-card,
+.ending,
+.history {
+  margin-top: 28rpx;
+}
+
+.event-title {
+  color: #f1c56b;
+  font-size: 40rpx;
+  font-weight: 700;
+}
+
+.event-text {
+  margin-top: 22rpx;
+  color: #eee3cf;
+  font-size: 31rpx;
+  line-height: 1.8;
+}
+
+.choice-button {
+  text-align: left;
+}
+
+.history-title {
+  color: #f1c56b;
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.history-item {
+  margin-top: 16rpx;
+  color: #c9bea8;
+  font-size: 25rpx;
+  line-height: 1.6;
+}

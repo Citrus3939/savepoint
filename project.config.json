@@ -1,0 +1,14 @@
+{
+  "description": "Savepoint life simulator WeChat Mini Program prototype",
+  "appid": "touristappid",
+  "projectname": "savepoint",
+  "miniprogramRoot": "./",
+  "compileType": "miniprogram",
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": false
+  }
+}
