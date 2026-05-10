@@ -184,6 +184,12 @@ appid: touristappid
 data/events.js
 ```
 
+如果你是新手，建议先看这份更详细的教程：
+
+```text
+EVENT_DESIGN_GUIDE.md
+```
+
 一个事件大概长这样：
 
 ```js
